@@ -19,7 +19,7 @@ Thank you for participating to this week's FNM at Home event with PGSs, you can 
 
 Remember to join us again next week, for a new event, and a new chance to chat and play with your fellow planeswalkers.
 `.trim());
-  await logCodeUse(user, code);
+  await logCodeUse(user.username, code);
 };
 
 const handleCodeRequest = async (msg) => {

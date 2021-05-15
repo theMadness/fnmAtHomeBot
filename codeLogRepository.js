@@ -16,6 +16,10 @@ const logCodeUse = async (username, code) => {
 const getCodeUseList = async () => {
   const logs = await db.get('logs');
 
+  if (null === logs) {
+    return 'Logbook is empty.';
+  }
+
   return logs.map((log) => `${log.timestamp}: Sent \`${log.code}\` to **${log.username}**.`);
 };
 
