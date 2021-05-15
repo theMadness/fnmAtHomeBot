@@ -3,7 +3,7 @@ const db = new Database();
 const moment = require('moment-timezone');
 
 const logCodeUse = async (username, code) => {
-  const logs = await db.get('logs');
+  const logs = (await db.get('logs')) || [];
   logs.push({
     username,
     code,
