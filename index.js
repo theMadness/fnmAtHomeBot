@@ -32,14 +32,14 @@ client.on('message', (msg) => {
 
   if (msg.channel.type !== 'dm') {
     switch (true) {
-      case msg.content.startsWith('!fnmCode '): handleCode(msg); break;
+      case null !== msg.content.match(/^!fnm[cC]ode /): handleCode(msg); break;
     }
   } else {
     switch (true) {
-      case msg.content.match(/^!add[cC]odes /): handleHopperLoad(msg); break;
-      case msg.content.match(/^\s*!checkCodes\s*/): handleHopperCheck(msg); break;
-      case msg.content.match(/^\s*!checkLogs\s*/): handleCodeLog(msg); break;
-      case msg.content.match(/^\s*!help\s*/):
+      case null !== msg.content.match(/^!add[cC]odes /): handleHopperLoad(msg); break;
+      case null !== msg.content.match(/^\s*!checkCodes\s*$/): handleHopperCheck(msg); break;
+      case null !== msg.content.match(/^\s*!checkLogs\s*$/): handleCodeLog(msg); break;
+      case null !== msg.content.match(/^\s*!help\s*$/):
         msg.channel.send(new MessageEmbed({
           title: 'DM Commands',
           description: dmCommandsHelp,
