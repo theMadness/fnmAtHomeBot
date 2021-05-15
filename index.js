@@ -8,7 +8,7 @@ const {
   handleHopperLoad,
   handleHopperCheck,
   handleCodeLog,
-  handleCode,
+  handleCodeRequest,
 } = require('./fnmCodeManager.js');
 
 app.get('/', (req, res) => res.send('Hello World!'));
@@ -32,7 +32,7 @@ client.on('message', (msg) => {
 
   if (msg.channel.type !== 'dm') {
     switch (true) {
-      case null !== msg.content.match(/^!fnm[cC]ode /): handleCode(msg); break;
+      case null !== msg.content.match(/^!fnm[cC]ode /): handleCodeRequest(msg); break;
     }
   } else {
     switch (true) {
