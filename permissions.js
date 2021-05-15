@@ -14,10 +14,14 @@ const whiteList = {
   ],
 };
 
-const canManageHopper = msg => true;
+const authorHasRole = (msg, roles) => msg.member.roles.cache.some(
+    (role) => roles.includes(role.name),
+);
 
-const canRequestCode = msg => whiteList.codeChannels.includes(msg.channel.name)
-  && authorHasRole(msg, whiteList.codeRoles);
+const canManageHopper = (msg) => true;
+
+const canRequestCode = (msg) => whiteList.codeChannels.includes(msg.channel.name) &&
+  authorHasRole(msg, whiteList.codeRoles);
 
 exports = {
   canManageHopper,
