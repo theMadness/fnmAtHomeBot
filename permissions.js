@@ -21,7 +21,7 @@ const canManageHopper = (msg) => msg.client.guilds.cache.some((guild) => rolesCo
 const canRequestCode = (msg) => whiteList.codeChannels.includes(msg.channel.name) &&
   rolesContain(msg.member.roles, whiteList.codeRoles);
 
-exports = {
+module.exports = {
   canManageHopper,
   canRequestCode,
 };

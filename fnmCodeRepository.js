@@ -6,7 +6,7 @@ const addCodes = (codes) => {
 };
 const getUnusedCodes = () => db.get('test');
 
-exports = {
+module.exports = {
   addCodes,
   getUnusedCodes,
 };

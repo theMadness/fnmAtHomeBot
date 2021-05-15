@@ -13,7 +13,7 @@ const handleCodeLog = (msg) => canManageHopper(msg) && getCodeUseList().then((va
 
 const handleCode = (msg) => canRequestCode(msg) && getCodeUseList().then((value) => msg.reply(value));
 
-exports = {
+module.exports = {
   handleHopperLoad,
   handleHopperCheck,
   handleCodeLog,
