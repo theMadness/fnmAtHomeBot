@@ -13,7 +13,11 @@ const logCodeUse = async (username, code) => {
   await db.set('logs', logs);
 };
 
-const getCodeUseList = () => db.get('logs');
+const getCodeUseList = async () => {
+  const logs = await db.get('logs');
+
+  return logs.map((log) => `${log.timestamp}: Sent \`${log.code}\` to **${log.username}**.`);
+};
 
 module.exports = {
   logCodeUse,
