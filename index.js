@@ -36,10 +36,10 @@ client.on('message', (msg) => {
     }
   } else {
     switch (true) {
-      case msg.content.startsWith('!addCodes '): handleHopperLoad(msg); break;
-      case msg.content === '!checkCodes': handleHopperCheck(msg); break;
-      case msg.content === '!checkLogs': handleCodeLog(msg); break;
-      case msg.content === '!help':
+      case msg.content.match(/^!add[cC]odes /): handleHopperLoad(msg); break;
+      case msg.content.match(/^\s*!checkCodes\s*/): handleHopperCheck(msg); break;
+      case msg.content.match(/^\s*!checkLogs\s*/): handleCodeLog(msg); break;
+      case msg.content.match(/^\s*!help\s*/):
         msg.channel.send(new MessageEmbed({
           title: 'DM Commands',
           description: dmCommandsHelp,

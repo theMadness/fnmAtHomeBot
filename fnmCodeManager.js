@@ -1,19 +1,11 @@
-const {
-  addCodes,
-  getUnusedCodes,
-} = require('./fnmCodeRepository.js');
-const {
-  logCodeUse,
-  getCodeUseList,
-} = require('./codeLogRepository.js');
-const {
-  canManageHopper,
-  canRequestCode,
-} = require('./permissions.js');
+const {canManageHopper, canRequestCode} = require('./permissions.js');
+const extractCodes = require('./fnmCodeDeserializer');
+const {addCodes, getUnusedCodes} = require('./fnmCodeRepository.js');
+const {logCodeUse, getCodeUseList} = require('./codeLogRepository.js');
 
-const extractCodes = (messageBody) => console.log(messageBody);
-
-const handleHopperLoad = (msg) => canManageHopper(msg) && addCodes(extractCodes(msg.content)).then(() => msg.reply('Added Codes'));
+const handleHopperLoad = (msg) => canManageHopper(msg) &&
+    addCodes(extractCodes(msg.content))
+        .then((count) => msg.reply(`Added ${count} Codes`));
 
 const handleHopperCheck = (msg) => canManageHopper(msg) && getUnusedCodes().then((value) => msg.reply(value));
 
