@@ -1,8 +1,10 @@
 const express = require('express');
 const app = express();
 const port = 3000;
-const {Client, MessageEmbed} = require('discord.js');
-const client = new Client();
+const {Client, Intents, MessageEmbed} = require('discord.js');
+const client = new Client({
+  ws: (new Intents(['GUILD_MEMBERS'])),
+});
 
 const {
   handleHopperLoad,
