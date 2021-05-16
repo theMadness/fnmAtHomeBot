@@ -1,3 +1,7 @@
-const extractCodes = (messageBody) => messageBody.replace(/^!add[cC]odes\s+(.*?)\s*$/, '$1').split(/[ \n,/]/);
+/**
+ * @param {string} messageBody
+ * @return {string[]}
+ */
+const extractCodes = (messageBody) => messageBody.replace(/^!addCodes\s+(.*?)\s*$/i, '$1').split(/[ \n,/]/);
 
 module.exports = extractCodes;

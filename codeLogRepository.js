@@ -2,6 +2,11 @@ const Database = require('@replit/database');
 const db = new Database();
 const moment = require('moment-timezone');
 
+/**
+ * @param {string} username
+ * @param {string} code
+ * @return {Promise<void>}
+ */
 const logCodeUse = async (username, code) => {
   const logs = (await db.get('logs')) || [];
   logs.push({
@@ -13,6 +18,9 @@ const logCodeUse = async (username, code) => {
   await db.set('logs', logs);
 };
 
+/**
+ * @return {Promise<string|string[]>}
+ */
 const getCodeUseList = async () => {
   const logs = await db.get('logs');
 
