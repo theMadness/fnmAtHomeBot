@@ -7,21 +7,22 @@ const {logCodeUse, getCodeUseList} = require('./codeLogRepository.js');
  * @param {Message} msg
  * @return {Promise<any> | PromiseLike<any>}
  */
-const handleHopperLoad = (msg) => canManageHopper(msg) &&
-    addCodes(extractCodes(msg.content))
-        .then((count) => msg.reply(`Added ${count} Codes`));
+const handleHopperLoad = async (msg) => await canManageHopper(msg) &&
+    msg.reply(`Added ${await addCodes(extractCodes(msg.content))} Codes`);
 
 /**
  * @param {Message} msg
  * @return {Promise<any> | PromiseLike<any>}
  */
-const handleHopperCheck = (msg) => canManageHopper(msg) && getUnusedCodes().then((value) => msg.reply(value || 'empty'));
+const handleHopperCheck = async (msg) => await canManageHopper(msg) &&
+    msg.reply((await getUnusedCodes()) || 'empty');
 
 /**
  * @param {Message} msg
  * @return {boolean|Promise<string | *>}
  */
-const handleCodeLog = (msg) => canManageHopper(msg) && getCodeUseList().then((value) => msg.reply(value));
+const handleCodeLog = async (msg) => await canManageHopper(msg) &&
+    msg.reply(await getCodeUseList());
 
 /**
  * @param {User} user
@@ -40,10 +41,10 @@ Remember to join us again next week, for a new event, and a new chance to chat a
 
 /**
  * @param {Message} msg
- * @return {Promise<void>}
+ * @return {Promise<Message|null>}
  */
 const handleCodeRequest = async (msg) => {
-  if (!canRequestCode(msg)) return;
+  if (!canRequestCode(msg)) return Promise.resolve(null);
 
   for (const userKeyValue of await msg.mentions.users) {
     /** @var {User} user */
@@ -52,9 +53,9 @@ const handleCodeRequest = async (msg) => {
   }
 
   if (msg.mentions.users.size === 1) {
-    msg.reply(`Sent 1 code`);
+    return msg.reply(`Sent 1 code`);
   } else {
-    msg.reply(`Sent ${msg.mentions.users.size} codes`);
+    return msg.reply(`Sent ${msg.mentions.users.size} codes`);
   }
 };
 

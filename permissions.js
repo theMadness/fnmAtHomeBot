@@ -47,7 +47,6 @@ const rolesContain = (haystack, needles) => haystack.cache.some((role) => needle
  */
 const userIsInGuildWithRoles = async (guild, user, roleNames) => {
   const authorMembership = await guild.members.fetch(user.id);
-  console.log(authorMembership);
   if (!authorMembership) return false;
 
   return rolesContain(authorMembership.roles, roleNames);
@@ -57,9 +56,9 @@ const userIsInGuildWithRoles = async (guild, user, roleNames) => {
  * @param {Message} msg
  * @return {boolean}
  */
-const canManageHopper = (msg) => asyncSome(
-    Array.from(msg.client.guilds.cache),
-    async (guild) => userIsInGuildWithRoles(guild, msg.author, whiteList.hopperManagementRoles),
+const canManageHopper = async (msg) => await asyncSome(
+    msg.client.guilds.cache.map((guild) => guild),
+    (guild) => userIsInGuildWithRoles(guild, msg.author, whiteList.hopperManagementRoles),
 );
 
 /**
