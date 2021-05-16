@@ -15,7 +15,7 @@ const whiteList = {
 };
 
 /**
- * @param {RoleManager} haystack
+ * @param {GuildMemberRoleManager} haystack
  * @param {string[]} needles
  * @return {boolean}
  */
@@ -25,7 +25,13 @@ const rolesContain = (haystack, needles) => haystack.cache.some((role) => needle
  * @param {Message} msg
  * @return {boolean}
  */
-const canManageHopper = (msg) => msg.client.guilds.cache.some((guild) => rolesContain(guild.roles, whiteList.hopperManagementRoles));
+const canManageHopper = (msg) => msg.client.guilds.cache.some(
+    (guild) => guild.roles.cache.some(
+        (role) => whiteList.hopperManagementRoles.includes(role.name) && role.members.cache.some(
+            (member) => member.user.id === msg.author.id,
+        ),
+    ),
+);
 
 /**
  * @param {Message} msg
