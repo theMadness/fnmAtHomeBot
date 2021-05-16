@@ -14,6 +14,8 @@ const whiteList = {
   ],
 };
 
+const some = require('async-some');
+
 /**
  * @param {GuildMemberRoleManager} haystack
  * @param {string[]} needles
@@ -22,15 +24,26 @@ const whiteList = {
 const rolesContain = (haystack, needles) => haystack.cache.some((role) => needles.includes(role.name));
 
 /**
+ * @param {Guild} guild
+ * @param {User} user
+ * @param {string[]} roleNames
+ * @return {Promise<boolean>}
+ */
+const userIsInGuildWithRoles = async (guild, user, roleNames) => {
+  const authorMembership = await guild.members.fetch(user.id);
+  console.log(authorMembership);
+  if (!authorMembership) return false;
+
+  return rolesContain(authorMembership.roles, roleNames);
+};
+
+/**
  * @param {Message} msg
  * @return {boolean}
  */
-const canManageHopper = (msg) => msg.client.guilds.cache.some(
-    (guild) => guild.roles.cache.some(
-        (role) => whiteList.hopperManagementRoles.includes(role.name) && role.members.cache.some(
-            (member) => member.user.id === msg.author.id,
-        ),
-    ),
+const canManageHopper = (msg) => some(
+    msg.client.guilds.cache,
+    async (guild) => userIsInGuildWithRoles(guild, msg.author, whiteList.hopperManagementRoles),
 );
 
 /**
