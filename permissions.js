@@ -14,7 +14,23 @@ const whiteList = {
   ],
 };
 
-const some = require('async-some');
+/**
+ * @callback Predicate
+ * @param {*} item
+ * @return Promise<Boolean>
+ */
+
+/**
+ * @param {Array} arr
+ * @param {Predicate} predicate
+ * @return {Boolean}
+ */
+const asyncSome = async (arr, predicate) => {
+  for (const e of arr) {
+    if (await predicate(e)) return true;
+  }
+  return false;
+};
 
 /**
  * @param {GuildMemberRoleManager} haystack
@@ -41,8 +57,8 @@ const userIsInGuildWithRoles = async (guild, user, roleNames) => {
  * @param {Message} msg
  * @return {boolean}
  */
-const canManageHopper = (msg) => some(
-    msg.client.guilds.cache,
+const canManageHopper = (msg) => asyncSome(
+    Array.from(msg.client.guilds.cache),
     async (guild) => userIsInGuildWithRoles(guild, msg.author, whiteList.hopperManagementRoles),
 );
 
